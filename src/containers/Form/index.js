@@ -8,7 +8,6 @@ const mockContactApi = () => new Promise((resolve) => { setTimeout(resolve, 500)
 
 const Form = ({ onSuccess, onError }) => {
   const [sending, setSending] = useState(false);
-  const [message, setMessage] = useState(false); // Création d'une const message
   const sendContact = useCallback(
     async (evt) => {
       evt.preventDefault();
@@ -16,7 +15,7 @@ const Form = ({ onSuccess, onError }) => {
       try {
         await mockContactApi();
         setSending(false);
-        setMessage('Message envoyé !') // Si envoie, change message en message envoyé
+        onSuccess(); // Fix : Appel onSucces qui du coup renvoie true et qui ouvre la modal
       } catch (err) {
         setSending(false);
         onError(err);
@@ -41,8 +40,6 @@ const Form = ({ onSuccess, onError }) => {
           <Button type={BUTTON_TYPES.SUBMIT} disabled={sending}>
             {sending ? "En cours" : "Envoyer"} 
           </Button>
-          {message} 
-          {/* Affiche message */}
         </div>
         <div className="col">
           <Field
