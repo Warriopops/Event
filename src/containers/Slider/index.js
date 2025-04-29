@@ -7,9 +7,13 @@ import "./style.scss";
 const Slider = () => {
   const { data } = useData();
   const [index, setIndex] = useState(0);
+  // const byDateDesc = data?.focus.sort((evtA, evtB) =>
+  //   new Date(evtA.date) < new Date(evtB.date) ? -1 : 1
+  // );
   const byDateDesc = data?.focus.sort((evtA, evtB) =>
-    new Date(evtA.date) < new Date(evtB.date) ? -1 : 1
+    new Date(evtB.date) - new Date(evtA.date) // Fix : Trier par ordre croissant avant, là on compare la date B avec A, on inverse A & B car sinon résultat négatif
   );
+  
   const nextCard = () => {
     setTimeout(
       () => setIndex(index < byDateDesc.length ? index + 1 : 0),

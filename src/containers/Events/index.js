@@ -13,6 +13,9 @@ const EventList = () => {
   const { data, error } = useData();
   const [type, setType] = useState();
   const [currentPage, setCurrentPage] = useState(1);
+
+
+  
   const filteredEvents = (
     (!type
       ? data?.events
@@ -29,9 +32,11 @@ const EventList = () => {
   const changeType = (evtType) => {
     setCurrentPage(1);
     setType(evtType);
+    console.log("TYPEEEEEEE", evtType)
   };
   const pageNumber = Math.floor((filteredEvents?.length || 0) / PER_PAGE) + 1;
   const typeList = new Set(data?.events.map((event) => event.type));
+  console.log("typelist", type)
   return (
     <>
       {error && <div>An error occured</div>}
@@ -54,6 +59,7 @@ const EventList = () => {
                     title={event.title}
                     date={new Date(event.date)}
                     label={event.type}
+                    
                   />
                 )}
               </Modal>
