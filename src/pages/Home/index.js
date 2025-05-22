@@ -9,6 +9,8 @@ import Logo from "../../components/Logo";
 import Icon from "../../components/Icon";
 import Form from "../../containers/Form";
 import Modal from "../../containers/Modal";
+// Fix import de modal event
+import ModalEvent from "../../containers/ModalEvent/index";
 import { useData } from "../../contexts/DataContext";
 
 const Page = () => {
@@ -113,15 +115,29 @@ const Page = () => {
       </div>
     </main>
     <footer className="row">
-      <div className="col presta">
-        <h3>Notre derniére prestation</h3>
-        <EventCard
-          imageSrc={last?.cover || ""}
-          title={last?.title || ""}
-          date={new Date(last?.date)}
-          small
-          label="boom"
-        />
+    <div data-testid="event-card" className="col presta">
+        <h3>Notre dernière prestation</h3>
+          {!last ? (
+            "Waiting last event..."
+          ) : (
+            <Modal key={last.id} Content={
+
+            // Fix
+            <ModalEvent event={last} />}>
+              {({ setIsOpened }) => (
+                <div data-testid="event-card">
+                  <EventCard
+                    onClick={() => setIsOpened(true)}
+                    imageSrc={last?.cover}
+                    title={last?.title}
+                    date={new Date(last?.date)}
+                    small
+                    label={last?.type}
+                  />
+                </div>
+              )}
+            </Modal>
+          )}
       </div>
       <div className="col contact">
         <h3>Contactez-nous</h3>
